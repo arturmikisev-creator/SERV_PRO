@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ServicePro PRO - Ақтөбе барлық қызметтері</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header с поиском -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <i class="fas fa-tools"></i>
+                    <span>ServicePro PRO</span>
+                </div>
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="🔍 Қызметтерді іздеу...">
+                    <button id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#home" class="nav-link">🏠 Басты</a></li>
+                    <li><a href="#services" class="nav-link">🛠 Қызметтер</a></li>
+                    <li><a href="#orders" class="nav-link">📋 Тапсырыстар</a></li>
+                    <li><a href="#reviews" class="nav-link">⭐ Пікірлер</a></li>
+                    <li class="auth-menu">
+                        <button id="loginBtn" class="auth-btn login-btn">Кіру</button>
+                        <button id="registerBtn" class="auth-btn register-btn">Тіркелу</button>
+                    </li>
+                </ul>
+                <div class="hamburger">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+        </nav>
+        <!-- Notification -->
+        <div id="notification" class="notification"></div>
+    </header>
+
+    <!-- Hero с слайдером -->
+    <section id="home" class="hero">
+        <div class="hero-slider">
+            <div class="slide active">
+                <div class="hero-content">
+                    <h1>Барлық қызметтер бір жерде</h1>
+                    <p>Жылдам • Сапалы • Сенімді • 24/7</p>
+                    <div class="hero-buttons">
+                        <button class="cta-btn primary" onclick="app.quickOrder()">
+                            🚀 Жылдам тапсырыс
+                        </button>
+                        <button class="cta-btn secondary" onclick="document.getElementById('services').scrollIntoView({behavior: 'smooth'})">
+                            Қызметтерді қарау
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="hero-content">
+                    <h1>Жаңа клиенттерге 20% жеңілдік!</h1>
+                    <p>Бүгін ғана - бірінші қызмет тегін жеңілдікпен</p>
+                    <div class="hero-buttons">
+                        <button class="cta-btn primary discount-btn" onclick="app.showDiscountInfo()">🎁 Жеңілдік алу</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-stats">
+            <div class="stat-item">
+                <h3 id="totalOrders">5000+</h3>
+                <p>Орындалған тапсырыстар</p>
+            </div>
+            <div class="stat-item">
+                <h3 id="totalMasters">250+</h3>
+                <p>Мамандар</p>
+            </div>
+            <div class="stat-item">
+                <h3>4.9</h3>
+                <p>⭐ Рейтинг</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Быстрые категории -->
+    <section class="categories">
+        <div class="container">
+            <h2>Танымал қызмет санаттар</h2>
+            <div class="categories-grid" id="categoriesGrid">
+                <!-- Категории -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">🛠 Барлық қызметтеріміз</h2>
+                <div class="filters">
+                    <button class="filter-btn active" data-filter="all">Барлығы</button>
+                    <button class="filter-btn" data-filter="repair">Жөндеу</button>
+                    <button class="filter-btn" data-filter="cleaning">Тазалау</button>
+                    <button class="filter-btn" data-filter="delivery">Жеткізу</button>
+                    <button class="filter-btn" data-filter="other">Басқа</button>
+                </div>
+            </div>
+            <div class="services-grid" id="servicesGrid"></div>
+            <div class="admin-panel" id="adminPanel" style="display: none;">
+                <h3>🔧 Админ панелі</h3>
+                <div class="admin-tabs">
+                    <button class="admin-tab active" data-tab="services">Қызметтер</button>
+                    <button class="admin-tab" data-tab="orders">Тапсырыстар</button>
+                    <button class="admin-tab" data-tab="promocodes">Промокодтар</button>
+                </div>
+                <!-- Services Tab -->
+                <div id="servicesTab" class="admin-tab-content">
+                    <form id="addServiceForm" class="service-form">
+                        <select id="serviceCategory" required>
+                            <option value="">Санат таңдаңыз</option>
+                            <option value="repair">Жөндеу</option>
+                            <option value="cleaning">Тазалау</option>
+                            <option value="delivery">Жеткізу</option>
+                            <option value="other">Басқа</option>
+                        </select>
+                        <input type="text" id="serviceTitle" placeholder="Қызмет атауы" required>
+                        <textarea id="serviceDesc" placeholder="Қызмет сипаттамасы" required></textarea>
+                        <input type="number" id="servicePrice" placeholder="Бағасы (₸)" step="0.01" required>
+                        <input type="number" id="serviceDuration" placeholder="Ұзақтығы (мин)">
+                        <input type="file" id="serviceImage" accept="image/*">
+                        <button type="submit">➕ Қызмет қосу</button>
+                    </form>
+                </div>
+                <!-- Orders Tab -->
+                <div id="ordersTab" class="admin-tab-content" style="display: none;">
+                    <div id="allOrdersList"></div>
+                </div>
+                <!-- Promocodes Tab -->
+                <div id="promocodesTab" class="admin-tab-content" style="display: none;">
+                    <form id="addPromoForm">
+                        <input type="text" id="promoCode" placeholder="Промокод" required>
+                        <input type="number" id="promoDiscount" placeholder="Жеңілдік %" required>
+                        <input type="date" id="promoExpiry" required>
+                        <button type="submit">➕ Промокод құру</button>
+                    </form>
+                    <div id="promoList"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Orders -->
+    <section id="orders" class="orders">
+        <div class="container">
+            <h2 class="section-title">📋 Менің тапсырыстарым және тапсырыс формасы</h2>
+            <div class="orders-container">
+                <div class="order-form-container">
+                    <form id="orderForm" class="order-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Қызмет</label>
+                                <select id="serviceSelect" required></select>
+                            </div>
+                            <div class="form-group">
+                                <label>Промокод</label>
+                                <input type="text" id="promoCodeInput" placeholder="Промокод енгізіңіз">
+                                <button type="button" id="applyPromo">Қосу</button>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Күні және уақыты <span id="serviceDurationInfo"></span></label>
+                                <input type="datetime-local" id="orderDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Құны</label>
+                                <input type="text" id="orderPrice" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Мекенжайы</label>
+                            <input type="text" id="orderAddress" placeholder="Мысалы, Ақтөбе, Әбілғازی даңғылы 123" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Телефон</label>
+                            <input type="tel" id="orderPhone" placeholder="+7 (777) 000-00-00" required>
+                        </div>
+                        <button type="submit" class="submit-order-btn">🚀 Тапсырыс құру</button>
+                    </form>
+                </div>
+                <div class="orders-list-container">
+                    <div class="orders-tabs">
+                        <button class="orders-tab active" data-tab="active">Белсенді</button>
+                        <button class="orders-tab" data-tab="completed">Аяқталған</button>
+                    </div>
+                    <div id="ordersList"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews -->
+    <section id="reviews" class="reviews">
+        <div class="container">
+            <h2 class="section-title">⭐ Тапсырыс берушілер пікірлері</h2>
+            <div class="reviews-container" id="reviewsContainer"></div>
+            <form id="reviewForm" class="review-form" style="display: none;">
+                <h3>Пікір қалдыру</h3>
+                <div class="stars" id="ratingStars">
+                    <i class="far fa-star" data-rating="1"></i>
+                    <i class="far fa-star" data-rating="2"></i>
+                    <i class="far fa-star" data-rating="3"></i>
+                    <i class="far fa-star" data-rating="4"></i>
+                    <i class="far fa-star" data-rating="5"></i>
+                </div>
+                <textarea id="reviewText" placeholder="Пікіріңізді жазыңыз..."></textarea>
+                <button type="submit">Пікір жіберу</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="loginFormContainer">
+                <h2>🔐 Кіру</h2>
+                <form id="loginForm">
+                    <input type="email" id="loginEmail" placeholder="Email" required>
+                    <input type="password" id="loginPassword" placeholder="Құпиясөз" required>
+                    <button type="submit">Кіру</button>
+                </form>
+                <p>Есеп жоқ па? <a href="#" id="showRegister">Тіркелу</a></p>
+            </div>
+            <div id="registerFormContainer" style="display: none;">
+                <h2>📝 Тіркелу</h2>
+                <form id="registerForm">
+                    <input type="text" id="regName" placeholder="Аты-жөні" required>
+                    <input type="email" id="regEmail" placeholder="Email" required>
+                    <input type="tel" id="regPhone" placeholder="Телефон" required>
+                    <input type="password" id="regPassword" placeholder="Құпиясөз (мин 6 таңба)" required>
+                    <button type="submit">Тіркелу</button>
+                </form>
+                <p>Есеп бар ма? <a href="#" id="showLogin">Кіру</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal success-modal">
+        <div class="modal-content">
+            <i class="fas fa-check-circle"></i>
+            <h3>Сәтті!</h3>
+            <p id="successMessage"></p>
+            <button id="closeSuccess">Тамаша</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3><i class="fas fa-tools"></i> ServicePro PRO</h3>
+                    <p>Ақтөбедегі №1 қызмет • 24/7 • Сапа кепілі</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>📞 Байланыс</h4>
+                    <p><i class="fas fa-phone"></i> +7 (777) 123-45-67</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Ақтөбе, Әбілғази даңғылы 123</p>
+                    <p><i class="fas fa-envelope"></i> info@servicepro.kz</p>
+                </div>
+                <div class="footer-section">
+                    <h4>🕒 Жұмыс уақыты</h4>
+                    <p>Дс-Дс: 08:00 - 22:00</p>
+                    <p>Тапсырыс күні шығамыз!</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 ServicePro PRO. Ақтөбе. Барлық құқықтар қорғалған.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
+ 
